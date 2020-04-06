@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -63,11 +64,12 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 	}
 }
 
-//上传成功后打印信息
+//UploadSuc:上传成功后打印信息
 func UploadSuc(w http.ResponseWriter,r *http.Request){
 	io.WriteString(w,"Upload Succeed!")
 }
 
+//DownloadHandler:下载文件
 func DownloadHandler(w http.ResponseWriter,r *http.Request){
 	//解析命令
 	r.ParseForm()
@@ -94,4 +96,53 @@ func DownloadHandler(w http.ResponseWriter,r *http.Request){
 	w.Header().Set("Content-Type","application/octect-stream")
 	w.Header().Set("Content-Description","attachment;filename=\""+fmeta.Filename+"\"")
 	w.Write(data)
+}
+
+//GetFilemeta:获取文件元信息
+func GetFilemeta(w http.ResponseWriter,r *http.Request){
+	r.ParseForm()
+	fsha1:=r.Form.Get("filehash")
+	fmeta:=meta.GetFileMeta(fsha1)
+
+	data,err:=json.Marshal(fmeta)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Write(data)
+}
+
+//UpdateFileMeta:更新文件元信息，此处只可更改文件名称
+func UpdateFileMeta(w http.ResponseWriter,r *http.Request){
+	r.ParseForm()
+	fsha1:=r.Form.Get("filehash")
+	fname:=r.Form.Get("filename")
+
+	if r.Method !="POST"{
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
+	fmeta:=meta.GetFileMeta(fsha1)
+	fmeta.Filename=fname
+	meta.UpdateFileMeta(fmeta)
+
+	data,err:=json.Marshal(fmeta)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
+//FileDeleteHandler:删除文件以及文件元信息
+func FileDeleteHandler(w http.ResponseWriter,r *http.Request){
+	r.ParseForm()
+	filsha1:=r.Form.Get("filehash")
+
+	fMeta:=meta.GetFileMeta(filsha1)
+	os.Remove(fMeta.Location)
+
+	meta.RemoveFileMeta(filsha1)
+	w.WriteHeader(http.StatusOK)
 }
