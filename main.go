@@ -24,6 +24,8 @@ func main(){
 	http.HandleFunc("/user/signin",handler.UserSignInHandler)
 	http.HandleFunc("/user/info",handler.UserInfoHandler)
 
+
+
 	err:=http.ListenAndServe(":8080",nil)
 	if err!=nil {
 		fmt.Printf("Failed to start server,err %s",err.Error())

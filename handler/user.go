@@ -13,7 +13,7 @@ const pwd_salt="#55&"
 
 func SignUpHandler(w http.ResponseWriter,r *http.Request){
 	if r.Method == http.MethodGet{
-		data,err:=ioutil.ReadFile("./static/view/signup.html")
+		data,err:=ioutil.ReadFile("./static/view/register.html")
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
