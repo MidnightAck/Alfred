@@ -1,14 +1,14 @@
 package handler
 
 import (
+	"Alfred/meta"
+	"Alfred/util"
 	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"Alfred/meta"
 	"time"
-	"Alfred/util"
 )
 
 //UploadHandler：处理文件上传
@@ -124,13 +124,17 @@ func UpdateFileMeta(w http.ResponseWriter,r *http.Request){
 	fsha1:=r.Form.Get("filehash")
 	fname:=r.Form.Get("filename")
 
+/*
 	if r.Method !="POST"{
 		w.WriteHeader(http.StatusMethodNotAllowed)
+		fmt.Printf("500")
 		return
 	}
-	fmeta:=meta.GetFileMeta(fsha1)
+*/
+
+	fmeta,err:=meta.GetFileMetaDB(fsha1)
 	fmeta.Filename=fname
-	meta.UpdateFileMeta(fmeta)
+	meta.UpdateFileMetaDB(fmeta)
 
 	data,err:=json.Marshal(fmeta)
 	if err!=nil {
@@ -149,6 +153,7 @@ func FileDeleteHandler(w http.ResponseWriter,r *http.Request){
 	fMeta:=meta.GetFileMeta(filsha1)
 	os.Remove(fMeta.Location)
 
-	meta.RemoveFileMeta(filsha1)
+	//meta.RemoveFileMeta(filsha1)
+	meta.RemoveFileMetaDB(filsha1)
 	w.WriteHeader(http.StatusOK)
 }

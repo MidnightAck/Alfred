@@ -2,6 +2,7 @@ package meta
 
 import (
 	mydb "Alfred/db"
+	"fmt"
 )
 
 //文件元信息的数据结构，包含
@@ -33,7 +34,16 @@ func UpdateFileMeta(fmeta FileMeta){
 
 //UploadFileMetaDB:向数据库插入filemeta
 func UploadFileMetaDB(fmeta FileMeta) bool {
-	return mydb.UploadFileToDB(fmeta.FileHash,fmeta.Filename,fmeta.FileSize,fmeta.Location)
+	return mydb.UploadMetaToDB(fmeta.FileHash,fmeta.Filename,fmeta.FileSize,fmeta.Location)
+}
+
+//UploadFileMetaDB:向数据库更新Meta的名称
+func UpdateFileMetaDB(fmeta FileMeta) bool {
+	res:= mydb.UpdateMetaInDB(fmeta.FileHash,fmeta.Filename)
+	if res==false {
+		fmt.Printf("Not Changed")
+	}
+	return res
 }
 
 //GetFileMeta：根据sha1查找FileMeta
@@ -62,3 +72,7 @@ func RemoveFileMeta(filesha1 string){
 	delete(filemetas,filesha1)
 }
 
+//RemoveFileMetaDB：根据key删除FileMeta
+func RemoveFileMetaDB(filesha1 string) bool {
+	return mydb.DeleteFileFromDB(filesha1)
+}
