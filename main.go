@@ -8,7 +8,9 @@ import (
 
 //应用入口
 func main(){
-
+	//处理静态页面
+	http.Handle("/static/",
+		http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	//文件路由
 	http.HandleFunc("/file/upload",handler.UploadHandler)
 	http.HandleFunc("/file/upload/suc",handler.UploadSuc)
@@ -17,6 +19,8 @@ func main(){
 	http.HandleFunc("/file/update",handler.UpdateFileMeta)
 	http.HandleFunc("/file/delete",handler.FileDeleteHandler)
 
+	//用户路由
+	http.HandleFunc("/user/signup",handler.SignUpHandler)
 
 
 	err:=http.ListenAndServe(":8080",nil)
