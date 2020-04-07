@@ -54,10 +54,11 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 			return
 		}
 
-		//在meta中更新信息
+		//在meta中插入信息
 		newfile.Seek(0,0)
 		fmeta.FileHash=util.FileSha1(newfile)
-		meta.UpdateFileMeta(fmeta)
+		//meta.UpdateFileMeta(fmeta)
+		meta.UploadFileMetaDB(fmeta)
 
 		//重定向到成功页面
 		http.Redirect(w,r,"/file/upload/suc",http.StatusFound)
@@ -102,7 +103,12 @@ func DownloadHandler(w http.ResponseWriter,r *http.Request){
 func GetFilemeta(w http.ResponseWriter,r *http.Request){
 	r.ParseForm()
 	fsha1:=r.Form.Get("filehash")
-	fmeta:=meta.GetFileMeta(fsha1)
+	//fmeta:=meta.GetFileMeta(fsha1)
+	fmeta,err:=meta.GetFileMetaDB(fsha1)
+	if err!=nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	data,err:=json.Marshal(fmeta)
 	if err!=nil {

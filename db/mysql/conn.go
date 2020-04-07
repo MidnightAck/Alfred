@@ -1,4 +1,5 @@
 package mysql
+//提供数据库连接的功能
 
 import (
 	"database/sql"
