@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81cae965-5663-430c-8436-1e374d50abef" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/view/signin.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/view/signup.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +47,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="693" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1586255515525">
+      <screen x="0" y="25" width="1920" height="1055" />
+    </state>
+    <state x="693" y="301" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1920.1055@0.25.1920.1055" timestamp="1586255515525" />
     <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1586152200939">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
