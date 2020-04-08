@@ -19,13 +19,21 @@ func main(){
 	http.HandleFunc("/file/update",handler.UpdateFileMeta)
 	http.HandleFunc("/file/delete",handler.FileDeleteHandler)
 
+
+	//分块上传
+	http.HandleFunc("/file/mpupload/init",
+		handler.HTTPInterceptor(handler.InitialMultipartUploadHandler))
+	http.HandleFunc("/file/mpupload/uppart",
+		handler.HTTPInterceptor(handler.UploadPartHandler))
+	http.HandleFunc("/file/mpupload/complete",
+		handler.HTTPInterceptor(handler.CompleteUploadHandler))
 	//用户路由
 	http.HandleFunc("/user/signup",handler.SignUpHandler)
 	http.HandleFunc("/user/signin",handler.UserSignInHandler)
 	http.HandleFunc("/user/info",handler.UserInfoHandler)
 
 
-
+	//fmt.Printf("上传服务启动中，开始监听[%s]...\n", cfg.UploadServiceHost)
 	err:=http.ListenAndServe(":8080",nil)
 	if err!=nil {
 		fmt.Printf("Failed to start server,err %s",err.Error())
