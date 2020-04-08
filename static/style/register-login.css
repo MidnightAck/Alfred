@@ -8,9 +8,9 @@
 		html,body{
 			height: 100%;
 			width: 100%;
-			font-family: 'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',Arial,sans-serif;
-			color: #555;
-    		font-size: 15px;
+			font-family: 'Microsoft YaHei','Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB',Arial,sans-serif;
+			color: #5a5a5a;
+    		font-size: 12px;
     		line-height: 1.7;
 		}
 		input:focus{
@@ -63,10 +63,10 @@
     		border: 0;
 		}
 		.cent-box-header .main-title{
-			width: 160px;
-			height: 74px;
+			width: 240px;
+			height: 111px;
 			margin: 0 auto;
-			background: url('../img/3.png') no-repeat;
+			background: url('../img/logo.png') no-repeat;
 			background-size: contain;
 		}
 		.cent-box-header .sub-title{
@@ -98,12 +98,12 @@
     		color: #555;
 		}
 		.index-tab .index-slide-nav a:hover{
-			color: #0f88eb;
+			color: #b40a00;
 			opacity: 1;
 		}
 		.index-tab .index-slide-nav a.active{
 			opacity: 1;
-			color: #0f88eb;
+			color: #b40a00;
 		}
 		.slide-bar{
 			position: absolute;
@@ -112,7 +112,7 @@
     		margin: 0 .8em;
     		width: 2.4em;
     		height: 2px;
-    		background: #0f88eb;
+    		background: #b40a00;
 		}
 		.slide-bar1{
 			left: 4em;
@@ -161,7 +161,7 @@
 		}
 		#button{
 			width: 100%;
-			background: #0f88eb;
+			background: #b40a00;
     		box-shadow: none;
     		border: 0;
     		border-radius: 3px;
@@ -173,7 +173,7 @@
     		font-family: 'Microsoft Yahei';
 		}
 		#button:hover{
-			background: #80c3f7;
+			background: #da6d52;
 		}
 		.remember{
 			margin-top: 10px;
@@ -201,7 +201,7 @@
 		.zt{
 			width: 9px;
 			height: 9px;
-			background: #0f88eb;
+			background: #b40a00;
 			margin: 1px;
 			display: block;
 		}
