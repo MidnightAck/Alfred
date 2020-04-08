@@ -49,6 +49,17 @@ func JudgeNameValid(username string,password string) bool {
 }
 
 func UserSignInHandler(w http.ResponseWriter,r *http.Request) {
+	if r.Method == http.MethodGet {
+		// data, err := ioutil.ReadFile("./static/view/signin.html")
+		// if err != nil {
+		// 	w.WriteHeader(http.StatusInternalServerError)
+		// 	return
+		// }
+		// w.Write(data)
+		http.Redirect(w, r, "/static/view/login.html", http.StatusFound)
+		return
+	}
+
 	r.ParseForm()
 	username:=r.Form.Get("username")
 	password:=r.Form.Get("password")

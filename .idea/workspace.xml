@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81cae965-5663-430c-8436-1e374d50abef" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/static/view/signin.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/view/signup.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/doc/table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/todolist" beforeDir="false" afterPath="$PROJECT_DIR$/doc/todolist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/file.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/file.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meta/filemeta.go" beforeDir="false" afterPath="$PROJECT_DIR$/meta/filemeta.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/style/register-login.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style/register-login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/view/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/view/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/view/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/view/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,9 +63,9 @@
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
     <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.25.1920.1055@0.25.1920.1055" timestamp="1586152200939" />
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1586252164338">
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1586314758468">
       <screen x="0" y="25" width="1920" height="1055" />
     </state>
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1586252164338" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.25.1920.1055@0.25.1920.1055" timestamp="1586314758468" />
   </component>
 </project>

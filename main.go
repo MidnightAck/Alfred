@@ -18,7 +18,14 @@ func main(){
 	http.HandleFunc("/file/meta",handler.GetFilemeta)
 	http.HandleFunc("/file/update",handler.UpdateFileMeta)
 	http.HandleFunc("/file/delete",handler.FileDeleteHandler)
+	http.HandleFunc("/file/query", handler.HTTPInterceptor(handler.FileQueryHandler))
 
+	// 秒传接口
+	http.HandleFunc("/file/fastupload", handler.HTTPInterceptor(
+		handler.TryFastUploadHandler))
+
+	//http.HandleFunc("/file/downloadurl", handler.HTTPInterceptor(
+	//	handler.DownloadURLHandler))
 
 	//分块上传
 	http.HandleFunc("/file/mpupload/init",

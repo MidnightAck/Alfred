@@ -38,7 +38,7 @@ func UploadFileMetaDB(fmeta FileMeta) bool {
 }
 
 //UploadFileMetaDB:向数据库更新Meta的名称
-func UpdateFileMetaDB(fmeta FileMeta) bool {
+func UpdateFileMetaDB(fmeta *FileMeta) bool {
 	res:= mydb.UpdateMetaInDB(fmeta.FileHash,fmeta.Filename)
 	if res==false {
 		fmt.Printf("Not Changed")
@@ -52,10 +52,10 @@ func GetFileMeta(filesha1 string) FileMeta{
 }
 
 //GetFileMetaDB：根据sha1从数据库中查找FileMeta
-func GetFileMetaDB(filesha1 string) (FileMeta,error){
+func GetFileMetaDB(filesha1 string) (*FileMeta,error){
 	tfile,err:=mydb.GetMetaFromDB(filesha1)
 	if err!=nil {
-		return FileMeta{},err
+		return nil,err
 	}
 	fmeta:=FileMeta{
 		FileHash: tfile.FileHash,
@@ -64,7 +64,7 @@ func GetFileMetaDB(filesha1 string) (FileMeta,error){
 		Location: tfile.FileAddr.String,
 		UploadAt: "",
 	}
-	return fmeta,nil
+	return &fmeta,nil
 }
 
 //RemoveFileMeta：根据key删除FileMeta
