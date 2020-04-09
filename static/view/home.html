@@ -154,6 +154,7 @@
       },
       success: function (body, textStatus, jqXHR) {
         try {
+          console.log(durl)
           alert("文件即将下载自: " + body);
           var elemIF = document.createElement("iframe");
           elemIF.src = body;

@@ -24,8 +24,8 @@ func main(){
 	http.HandleFunc("/file/fastupload", handler.HTTPInterceptor(
 		handler.TryFastUploadHandler))
 
-	//http.HandleFunc("/file/downloadurl", handler.HTTPInterceptor(
-	//	handler.DownloadURLHandler))
+	http.HandleFunc("/file/downloadurl", handler.HTTPInterceptor(
+		handler.DownloadURLHandler))
 
 	//分块上传
 	http.HandleFunc("/file/mpupload/init",
