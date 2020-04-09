@@ -298,24 +298,19 @@ func DownloadURLHandler(w http.ResponseWriter, r *http.Request) {
 		token := r.Form.Get("token")
 		tmpUrl := fmt.Sprintf("http://%s/file/download?filehash=%s&username=%s&token=%s",
 			r.Host, filehash, username, token)
-
-		DownloadFile(w,row.FileAddr.String,row.FileName.String)
 		w.Write([]byte(tmpUrl))
-
-
 	}else if strings.HasPrefix(row.FileAddr.String, "/ceph") {
 		bucket := ceph.GetCephBucket("userfile")
 		path:="/ceph"+row.FileHash
 		d, _ := bucket.Get(path)
-		fmt.Print(path)
+		//fmt.Print(path)
+		//w.Write([]byte(d))
 		tmpFile, _ := os.Create("/tmp/test_file")
-		//w.Header().Set("Content-Type","application/octect-stream")
-		//w.Header().Set("Content-Description","attachment;filename=\""+row.FileName.String+"\"")
-		//w.Write(d)
 		tmpFile.Write(d)
 	}  else if strings.HasPrefix(row.FileAddr.String, "oss/") {
 		// oss下载url
 		signedURL := oss.DownloadURL(row.FileAddr.String)
+		fmt.Print(signedURL)
 		w.Write([]byte(signedURL))
 	}
 
