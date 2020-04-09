@@ -2,10 +2,11 @@ package handler
 
 import (
 	"Alfred/meta"
+	"Alfred/store/oss"
 	"Alfred/util"
 	"encoding/json"
 	"fmt"
-	"gopkg.in/amz.v1/s3"
+	//"gopkg.in/amz.v1/s3"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -67,12 +68,22 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 
 		//将文件写入ceph
 		newfile.Seek(0,0)
-		dat,_:=ioutil.ReadAll(newfile)
+		//dat,_:=ioutil.ReadAll(newfile)
+		/*
 		bucket:=ceph.GetCephBucket("userfile")
 		cephPath:="/ceph/"+fmeta.FileHash
 		_=bucket.Put(cephPath,dat,"octect-stream",s3.PublicRead)
 		fmeta.Location=cephPath
 
+		 */
+		ossPath:="oss/"+fmeta.FileHash
+		err=oss.Bucket().PutObject(ossPath,newfile)
+		if err !=nil{
+			fmt.Printf("Upload OSS err:"+err.Error())
+			w.Write([]byte("Upload OSS err"))
+			return
+		}
+		fmeta.Location=ossPath
 
 		meta.UploadFileMetaDB(fmeta)
 
@@ -281,7 +292,7 @@ func DownloadURLHandler(w http.ResponseWriter, r *http.Request) {
 	// 从文件表查找记录
 	row, _ := dblayer.GetMetaFromDB(filehash)//meta.GetFileMetaDB(filehash)
 
-	// TODO: 判断文件存在OSS，还是Ceph，还是在本地,速度较慢可以优化
+	// TODO: ceph 速度较慢可以优化
 	if strings.HasPrefix(row.FileAddr.String, "/tmp") {
 		username := r.Form.Get("username")
 		token := r.Form.Get("token")
@@ -302,13 +313,11 @@ func DownloadURLHandler(w http.ResponseWriter, r *http.Request) {
 		//w.Header().Set("Content-Description","attachment;filename=\""+row.FileName.String+"\"")
 		//w.Write(d)
 		tmpFile.Write(d)
-	}  /*else if strings.HasPrefix(row.FileAddr.String, "oss/") {
+	}  else if strings.HasPrefix(row.FileAddr.String, "oss/") {
 		// oss下载url
 		signedURL := oss.DownloadURL(row.FileAddr.String)
 		w.Write([]byte(signedURL))
 	}
-
-		 */
 
 }
 
