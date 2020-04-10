@@ -3,6 +3,7 @@ package ceph
 import (
 	"gopkg.in/amz.v1/aws"
 	"gopkg.in/amz.v1/s3"
+	cfg "Alfred/config"
 )
 
 var cephConn *s3.S3
@@ -15,14 +16,14 @@ func GetCephConnection() *s3.S3{
 	//初始化Ceph信息
 	
 	auth:=aws.Auth{
-		AccessKey: "",
-		SecretKey: "",
+		AccessKey: cfg.CephAccessKey,
+		SecretKey: cfg.CephSecretKey,
 	}
 	
 	curRegion:=aws.Region{
 		Name:                 "default",
-		EC2Endpoint:          "http://192.144.155.134:9080",
-		S3Endpoint:           "http://192.144.155.134:9080",
+		EC2Endpoint:          cfg.CephGWEndpoint,
+		S3Endpoint:           cfg.CephGWEndpoint,
 		S3BucketEndpoint:     "",
 		S3LocationConstraint: false,
 		S3LowercaseBucket:    false,
@@ -37,4 +38,9 @@ func GetCephConnection() *s3.S3{
 func GetCephBucket(bucket string) *s3.Bucket {
 	conn:=GetCephConnection()
 	return conn.Bucket(bucket)
+}
+
+// PutObject : 上传文件到ceph集群
+func PutObject(bucket string, path string, data []byte) error {
+	return GetCephBucket(bucket).Put(path, data, "octet-stream", s3.PublicRead)
 }
