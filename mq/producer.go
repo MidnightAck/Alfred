@@ -39,13 +39,13 @@ func initChannel() bool {
 	if channel != nil {
 		return true
 	}
-
+	//获得链接
 	conn, err := amqp.Dial(config.RabbitURL)
 	if err != nil {
 		log.Println(err.Error())
 		return false
 	}
-
+	//打开channel用于链接和接受
 	channel, err = conn.Channel()
 	if err != nil {
 		log.Println(err.Error())
@@ -54,12 +54,14 @@ func initChannel() bool {
 	return true
 }
 
-// Publish : 发布消息
+// Publish : 发布消息 接受exchange交换机
 func Publish(exchange, routingKey string, msg []byte) bool {
+	//判断channel是否正确
 	if !initChannel() {
 		return false
 	}
 
+	//执行消息发布动作
 	if nil == channel.Publish(
 		exchange,
 		routingKey,
