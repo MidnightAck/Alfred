@@ -15,14 +15,14 @@ func GetCephConnection() *s3.S3{
 	//初始化Ceph信息
 	
 	auth:=aws.Auth{
-		AccessKey: "C7MBLZSLY75BAO49O7UY",
-		SecretKey: "byPyebXSdLqac4LRWANF9nDEziKysPn2GieIRWdo",
+		AccessKey: "",
+		SecretKey: "",
 	}
 	
 	curRegion:=aws.Region{
 		Name:                 "default",
-		EC2Endpoint:          "http://127.0.0.1:9080",
-		S3Endpoint:           "http://127.0.0.1:9080",
+		EC2Endpoint:          "http://192.144.155.134:9080",
+		S3Endpoint:           "http://192.144.155.134:9080",
 		S3BucketEndpoint:     "",
 		S3LocationConstraint: false,
 		S3LowercaseBucket:    false,
