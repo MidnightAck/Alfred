@@ -1,1 +1,5 @@
 config/oss.go
+config/rabbitmq.go
+config/store.go
+config/mysql.go
+config/ceph.go
