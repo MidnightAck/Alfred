@@ -1,18 +1,20 @@
 package handler
 
 import (
+	rPool "Alfred/cache/redis"
+	dblayer "Alfred/db"
 	"Alfred/util"
+	"cloudstore/config"
 	"fmt"
 	"github.com/garyburd/redigo/redis"
 	"math"
 	"net/http"
 	"os"
+	"os/exec"
 	"path"
 	"strconv"
-	rPool "Alfred/cache/redis"
 	"strings"
 	"time"
-	dblayer "Alfred/db"
 )
 
 //MultipartUploadInfo：分块信息
@@ -136,7 +138,16 @@ func CompleteUploadHandler(w http.ResponseWriter,r *http.Request){
 		w.Write(util.NewRespMsg(-2,"invalid request",nil).JSONBytes())
 		return
 	}
-	//分块合并操作
+	// 6. 合并分块为一个单独的文件，本质上使用的是如下命令
+	// cat `ls | sort -n` > /tmp/filename
+
+	partFileStorePath := config.DirPath + "/uploadid" // 分块所在的目录
+	fileStorePath := config.DirPath + filename        // 最后文件保存的路径
+	if _, err := mergeAllPartFile(partFileStorePath, fileStorePath); err != nil {
+		w.Write(util.NewRespMsg(-2,"failed to merge multi-part files",nil).JSONBytes())
+		return
+	}
+
 
 	//更新唯一文件表和用户文件表
 	fsize, _ := strconv.Atoi(filesize)
@@ -145,4 +156,17 @@ func CompleteUploadHandler(w http.ResponseWriter,r *http.Request){
 
 	//向客户端响应处理结果
 	w.Write(util.NewRespMsg(0, "OK", nil).JSONBytes())
+}
+
+// mergeAllPartFile: filepath： 分块存储的路径 filestore： 文件最终地址
+func mergeAllPartFile(partFileStorePath, fileStorePath string) (bool, error) {
+	var cmd *exec.Cmd
+	cmd = exec.Command(config.MergeAllShell, partFileStorePath, fileStorePath)
+
+	if _, err := cmd.Output(); err != nil {
+		fmt.Println(err)
+		return false, err
+	}
+	fmt.Println(fileStorePath, " has been merge complete")
+	return true, nil
 }
