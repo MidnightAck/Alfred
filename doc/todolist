@@ -17,9 +17,14 @@ PHASE TWO
 PHASE THREE
 - 部署到私有云 DONE
 - 部署公有云 DONE
+- 上传接口整合
+- 主页优化
 
 PHASE FOUR
-- 主页优化
 - 日历系统
 - 邮件系统
 - 团队系统
+
+PHASE FIVE
+- mysql高并发优化
+- 索引优化
