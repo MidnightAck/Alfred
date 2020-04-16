@@ -3,7 +3,7 @@ package mq
 import (
 	"Alfred/config"
 	"log"
-	"github.com/streadyway/amqp"
+	"github.com/streadway/amqp"
 
 )
 
