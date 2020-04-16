@@ -37,6 +37,7 @@ type TableFile struct {
 	FileName sql.NullString
 	FileSize sql.NullInt64
 	FileAddr sql.NullString
+	CreateAT string
 }
 
 //GetMetaFromDB：获取文件元信息
@@ -166,4 +167,23 @@ func UpdateFileLocation(filehash string, fileaddr string) bool {
 		return true
 	}
 	return false
+}
+
+// IsFileUploaded : check if hash already exists
+func IsFileUploaded(hash string) (*TableFile, error) {
+	stmt, err := mydb.DBConn().Prepare(
+		"select file_name, file_size, file_addr, file_sha1, create_at " +
+			" from tbl_file where file_sha1 = ? and status = 1 limit 1")
+	if err != nil {
+		fmt.Println("Failded to prepare statement, err: ", err.Error())
+		return nil, err
+	}
+	tfile := TableFile{}
+	err = stmt.QueryRow(hash).Scan(
+		&tfile.FileName, &tfile.FileSize, &tfile.FileAddr, &tfile.FileHash, &tfile.CreateAT)
+	if err != nil {
+		fmt.Println("IsFileUploaded ", err.Error())
+		return nil, err
+	}
+	return &tfile, nil
 }

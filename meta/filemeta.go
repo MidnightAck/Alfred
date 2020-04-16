@@ -76,3 +76,18 @@ func RemoveFileMeta(filesha1 string){
 func RemoveFileMetaDB(filesha1 string) bool {
 	return mydb.DeleteFileFromDB(filesha1)
 }
+
+// IsFileUploadedDB : check if file has checked
+func IsFileUploadedDB(hash string) (FileMeta, error) {
+	tfile, err := mydb.IsFileUploaded(hash)
+	if err != nil {
+		fmt.Println("IsFileUploadedDB : err:", err.Error())
+		return FileMeta{}, err
+	}
+	fileMeta := FileMeta{
+		Filename: tfile.FileName.String,
+		FileSize: tfile.FileSize.Int64,
+		Location: tfile.FileAddr.String,
+		FileHash:     tfile.FileHash}
+	return fileMeta, nil
+}

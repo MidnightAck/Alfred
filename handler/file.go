@@ -69,25 +69,11 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 		fmeta.FileHash=util.FileSha1(newfile)
 		//meta.UpdateFileMeta(fmeta)
 
-		//将文件写入ceph
-		newfile.Seek(0,0)
-		//dat,_:=ioutil.ReadAll(newfile)
-		/*
-		bucket:=ceph.GetCephBucket("userfile")
-		cephPath:="/ceph/"+fmeta.FileHash
-		_=bucket.Put(cephPath,dat,"octect-stream",s3.PublicRead)
-		fmeta.Location=cephPath
+		// 5. 判断之前是否上传过，如果上传过，则只在用户文件表添加记录
 
 
-		ossPath:="oss/"+fmeta.FileHash
-		err=oss.Bucket().PutObject(ossPath,newfile)
-		if err !=nil{
-			fmt.Printf("Upload OSS err:"+err.Error())
-			w.Write([]byte("Upload OSS err"))
-			return
-		}
-		fmeta.Location=ossPath
-		*/
+		//将文件写入云端
+
 
 		if cfg.CurrentStoreType == cmn.StoreCeph {
 			// 文件写入Ceph存储
