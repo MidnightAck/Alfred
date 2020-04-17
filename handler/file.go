@@ -82,9 +82,9 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 			w.Write([]byte("upload failed"))
 		}
 
+
+
 		//将文件写入云端
-
-
 		if cfg.CurrentStoreType == cmn.StoreCeph {
 			// 文件写入Ceph存储
 			data, _ := ioutil.ReadAll(newfile)
@@ -299,7 +299,7 @@ func FastUploadHandler(username string,filehash string,filename string,filesize 
 	return false
 }
 
-// TryFastUploadHandler : 尝试秒传接口
+// FastUploadHandler : 尝试秒传接口
 func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) bool{
 	r.ParseForm()
 
