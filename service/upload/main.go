@@ -21,8 +21,8 @@ func main(){
 	http.HandleFunc("/file/query", handler.HTTPInterceptor(handler.FileQueryHandler))
 
 	// 秒传接口
-	http.HandleFunc("/file/fastupload", handler.HTTPInterceptor(
-		handler.TryFastUploadHandler))
+	//http.HandleFunc("/file/fastupload", handler.HTTPInterceptor(
+		//handler.TryFastUploadHandler))
 
 	http.HandleFunc("/file/downloadurl", handler.HTTPInterceptor(
 		handler.DownloadURLHandler))
