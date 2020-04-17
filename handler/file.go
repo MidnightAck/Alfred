@@ -67,10 +67,20 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 		//在meta中插入信息
 		newfile.Seek(0,0)
 		fmeta.FileHash=util.FileSha1(newfile)
+
+		r.ParseForm()
+		username:=r.Form.Get("username")
 		//meta.UpdateFileMeta(fmeta)
 
 		// 5. 判断之前是否上传过，如果上传过，则只在用户文件表添加记录
-
+		isok:=FastUploadHandler(username,fmeta.FileHash,fmeta.Filename,fmeta.FileSize)
+		if isok {
+			//w.Write([]byte("秒传成功"))
+			fmt.Print("suc")
+			http.Redirect(w, r, "/static/view/home.html", http.StatusFound)
+		}else{
+			w.Write([]byte("upload failed"))
+		}
 
 		//将文件写入云端
 
@@ -117,8 +127,8 @@ func UploadHandler(w http.ResponseWriter,r *http.Request){
 		meta.UploadFileMetaDB(fmeta)
 
 		//更新用户文件表
-		r.ParseForm()
-		username:=r.Form.Get("username")
+		//r.ParseForm()
+		//username=r.Form.Get("username")
 		suc:=dblayer.OnUserFileUploadFinished(username,fmeta.FileHash,fmeta.Filename,fmeta.FileSize)
 		if suc {
 			http.Redirect(w, r, "/static/view/home.html", http.StatusFound)
@@ -268,7 +278,29 @@ func FileDeleteHandler(w http.ResponseWriter,r *http.Request){
 }
 
 // TryFastUploadHandler : 尝试秒传接口
-func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) {
+func FastUploadHandler(username string,filehash string,filename string,filesize int64) bool{
+	// 2. 从文件表中查询相同hash的文件记录
+	fileMeta, err := meta.GetFileMetaDB(filehash)
+	if err != nil {
+		fmt.Println(err.Error())
+		return false
+	}
+
+	// 3. 查不到记录则返回秒传失败
+	if fileMeta == nil {
+		return false
+	}
+
+	// 4. 上传过则将文件信息写入用户文件表， 返回成功
+	_= dblayer.OnUserFileUploadFinished(
+		username, filehash, filename, int64(filesize))
+		return true
+
+	return false
+}
+
+// TryFastUploadHandler : 尝试秒传接口
+func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) bool{
 	r.ParseForm()
 
 	// 1. 解析请求参数
@@ -282,7 +314,7 @@ func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return false
 	}
 
 	// 3. 查不到记录则返回秒传失败
@@ -292,7 +324,7 @@ func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) {
 			Msg:  "秒传失败，请访问普通上传接口",
 		}
 		w.Write(resp.JSONBytes())
-		return
+		return false
 	}
 
 	// 4. 上传过则将文件信息写入用户文件表， 返回成功
@@ -304,14 +336,14 @@ func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) {
 			Msg:  "秒传成功",
 		}
 		w.Write(resp.JSONBytes())
-		return
+		return true
 	}
 	resp := util.RespMsg{
 		Code: -2,
 		Msg:  "秒传失败，请稍后重试",
 	}
 	w.Write(resp.JSONBytes())
-	return
+	return false
 }
 
 
